@@ -2,7 +2,7 @@ from lxml import html
 import requests
 from bot import YobitBot
 from constants import get_currency_url, BASE_URL, CURRENCIES_NAMES_XPATH, CURRENCY_VALUE_XPATH, format_currency_value
-from messages import get_value_raised_msg, get_invalid_value_msg
+from messages import get_value_raised_msg, get_invalid_value_msg, get_grabbed_currencies_amount_msg
 import logging
 
 
@@ -13,6 +13,7 @@ class CurrencyScrappy:
   def grab_currencies_names(self):
     page_source = html.fromstring(requests.get(BASE_URL).text)
     self.currencies_names_ = page_source.xpath(CURRENCIES_NAMES_XPATH)
+    logging.info(get_grabbed_currencies_amount_msg(len(self.currencies_names_)))
 
   def check_currencies(self, bot: YobitBot):
     for currency_name in self.currencies_names_:
