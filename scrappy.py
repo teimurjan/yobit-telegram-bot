@@ -19,6 +19,7 @@ class CurrencyScrappy:
   def check_currencies(self, bot: YobitBot):
     i = 0
     for currency_name in self.currencies_names_:
+      i += 1
       logging.info(get_checking_currency_msg(currency_name, i))
       page_source = html.fromstring(requests.get(get_currency_url(currency_name)).text)
       value = page_source.xpath(CURRENCY_VALUE_XPATH)[0]
