@@ -1,8 +1,9 @@
-from bot import YobitBot
-from constants import BOT_TOKEN, LOGGING_CONFIGS, JOB_FINISHED_LOG, JOB_STARTED_LOG
-from models import Chat
-from scrappy import CurrencyScrappy
 import logging
+
+from api_observer import ApiObserver
+from bot import YobitBot
+from constants import BOT_TOKEN, LOGGING_CONFIGS
+from models import Chat
 
 
 def main():
@@ -14,17 +15,9 @@ def main():
   bot = YobitBot(BOT_TOKEN)
   bot.start()
 
-  scrappy = CurrencyScrappy()
-
-  while True:
-    logging.info(JOB_STARTED_LOG)
-    scrappy.grab_currencies_names()
-    scrappy.check_currencies(bot)
-    logging.info(JOB_FINISHED_LOG)
+  observer = ApiObserver(bot)
+  observer.observe()
 
 
 if __name__ == '__main__':
-  try:
-    main()
-  except Exception as e:
-    logging.error(e)
+  main()
