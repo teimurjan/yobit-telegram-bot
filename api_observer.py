@@ -1,6 +1,7 @@
 import logging
 
 import requests
+import time
 
 from constants import INFO_URL, get_ticker_url, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
   VALUE_RAISE_BOUND
@@ -17,6 +18,7 @@ class ApiObserver(object):
     while True:
       try:
         self._collect_data()
+        time.sleep(40)
       except Exception as e:
         logging.error(e)
 
