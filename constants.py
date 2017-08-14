@@ -3,7 +3,7 @@ import logging
 INFO_URL = 'https://yobit.net/api/3/info'
 
 CURRENCY_PAIRS_KEY = 'pairs'
-CURRENCY_VOLUME_KEY = 'vol_cur'
+CURRENCY_VOLUME_KEY = 'vol'
 
 MAX_PERMISSABLE_VOLUME = 150
 VALUE_RAISE_BOUND = 1
