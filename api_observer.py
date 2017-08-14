@@ -44,7 +44,7 @@ class ApiObserver(object):
 
   def _match_with_prev(self, currency_pair, currency_volume):
     try:
-      prev_volume = self.previous_values[currency_pair][CURRENCY_VOLUME_KEY]
+      prev_volume = self.previous_values[currency_pair]
       has_value_raised = currency_volume - prev_volume >= VALUE_RAISE_BOUND
       if has_value_raised:
         msg = get_value_raised_msg(get_currency_name_from_pair(currency_pair), prev_volume, currency_volume)
