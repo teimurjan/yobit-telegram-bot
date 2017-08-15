@@ -3,10 +3,10 @@ import logging
 import requests
 import time
 
-from constants import INFO_URL, get_ticker_url, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
-  VALUE_RAISE_BOUND
+from constants import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
+  VALUE_RAISE_BOUND, IGNORE_CURRENCIES
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
-from utils import get_currency_name_from_pair, is_pair_with_btc
+from utils import get_currency_name_from_pair, is_pair_with_btc, get_ticker_url
 
 
 class ApiObserver(object):
@@ -38,6 +38,8 @@ class ApiObserver(object):
     for currencies_pairs_chunk in self.currencies_pairs_:
       response = requests.get(get_ticker_url(currencies_pairs_chunk)).json()
       for name, value in response.items():
+        if get_currency_name_from_pair(name).lower() in IGNORE_CURRENCIES:
+          continue
         volume = value[CURRENCY_VOLUME_KEY]
         if volume > MAX_PERMISSABLE_VOLUME:
           continue
