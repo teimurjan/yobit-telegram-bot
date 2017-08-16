@@ -1,8 +1,7 @@
 import logging
-
+import traceback
 import requests
 import time
-
 from constants import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
   VALUE_RAISE_BOUND, IGNORE_CURRENCIES
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
@@ -19,8 +18,8 @@ class ApiObserver(object):
       try:
         self._collect_data()
         time.sleep(40)
-      except Exception as e:
-        logging.error(e)
+      except Exception:
+        logging.error(traceback.print_exc())
 
   def _collect_data(self):
     self._collect_currencies_pairs()
