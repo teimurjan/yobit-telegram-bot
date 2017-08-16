@@ -10,8 +10,12 @@ VALUE_RAISE_BOUND = 1
 
 BOT_TOKEN = '395068991:AAHuDPRWP1nOdjPIlPA6Qvr0yWIBETBSoPE'
 
-LOGGING_CONFIGS = {'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                   'filename': 'log.txt', 'filemode': 'w', 'level': logging.INFO}
+LOGGER_NAME = "DEBUG_LOG"
+LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+LOGGER_FILE_NAME = "log.txt"
+LOGGER_UPDATE_VALUE = "d"
+LOGGER_UPDATE_INTERVAL = 1
+LOGGER_BACKUP_COUNT = 1
 
 IGNORE_CURRENCIES = ['eth', 'etc', 'ltc', 'usd', 'wawes', 'lsk', 'nlc2', 'dash', 'doge']
 

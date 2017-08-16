@@ -1,23 +1,16 @@
-import logging
-
 from api_observer import ApiObserver
 from bot import YobitBot
-from constants import BOT_TOKEN, LOGGING_CONFIGS
+from constants import BOT_TOKEN
 from models import Chat
+from utils import setup_logger
 
-
-def main():
-  logging.basicConfig(**LOGGING_CONFIGS)
-
+if __name__ == '__main__':
   if not Chat.table_exists():
     Chat.create_table()
 
   bot = YobitBot(BOT_TOKEN)
   bot.start()
 
+  setup_logger()
   observer = ApiObserver(bot)
   observer.observe()
-
-
-if __name__ == '__main__':
-  main()

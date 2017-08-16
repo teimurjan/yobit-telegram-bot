@@ -3,7 +3,7 @@ import traceback
 import requests
 import time
 from constants import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
-  VALUE_RAISE_BOUND, IGNORE_CURRENCIES
+  VALUE_RAISE_BOUND, IGNORE_CURRENCIES, LOGGER_NAME
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
 from utils import get_currency_name_from_pair, is_pair_with_btc, get_ticker_url
 
@@ -12,6 +12,7 @@ class ApiObserver(object):
   def __init__(self, bot):
     self.bot = bot
     self.previous_values = dict()
+    self.logger = logging.getLogger(LOGGER_NAME)
 
   def observe(self):
     while True:
@@ -19,13 +20,13 @@ class ApiObserver(object):
         self._collect_data()
         time.sleep(40)
       except Exception:
-        logging.error(traceback.print_exc())
+        self.logger.error(traceback.print_exc())
 
   def _collect_data(self):
     self._collect_currencies_pairs()
-    logging.info(get_grabbed_currencies_amount_msg(len(self.currencies_pairs_)))
+    self.logger.info(get_grabbed_currencies_amount_msg(len(self.currencies_pairs_)))
     self._collect_values_with_matching()
-    logging.info(get_handled_currencies_amount_msg(len(self.previous_values)))
+    self.logger.info(get_handled_currencies_amount_msg(len(self.previous_values)))
 
   def _collect_currencies_pairs(self):
     response = requests.get(INFO_URL).json()
@@ -52,7 +53,7 @@ class ApiObserver(object):
       if has_value_raised:
         msg = get_value_raised_msg(get_currency_name_from_pair(currency_pair), prev_volume, currency_volume)
         self.bot.send_msg(msg)
-        logging.info(msg)
+        self.logger.info(msg)
     except KeyError:
       pass
 
