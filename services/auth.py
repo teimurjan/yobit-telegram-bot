@@ -30,7 +30,7 @@ def become_admin(update) -> str:
     password = update.message.text.split(' ')[1]
     if password != ADMIN_PASSWORD:
       return NOT_FOUND
-    user, created = User.get_or_create(login='admin', telegram_user_id=user_id, name=update.message.from_user.name,
+    user, created = User.get_or_create(login='admin{}'.format(user_id), telegram_user_id=user_id, name=update.message.from_user.name,
                                        chat_id=update.message.chat_id, is_admin=True)
     if not created:
       return ADMIN_EXISTS
