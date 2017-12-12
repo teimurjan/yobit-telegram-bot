@@ -2,4 +2,4 @@ venv
 .idea
 .gitignore
 yobit_bot.db
-log.txt
+log
