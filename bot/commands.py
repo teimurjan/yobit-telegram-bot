@@ -1,0 +1,5 @@
+START_COMMAND = 'start'
+LIST_USERS_COMMAND = 'list_users'
+ADD_USER_COMMAND = 'add_user'
+DELETE_USER_COMMAND = 'delete_user'
+BECOME_ADMIN_COMMAND = 'become_admin'

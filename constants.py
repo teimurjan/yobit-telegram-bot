@@ -1,5 +1,3 @@
-import logging
-
 INFO_URL = 'https://yobit.net/api/3/info'
 
 CURRENCY_PAIRS_KEY = 'pairs'
@@ -19,6 +17,4 @@ LOGGER_BACKUP_COUNT = 1
 
 IGNORE_CURRENCIES = ['eth', 'etc', 'ltc', 'usd', 'wawes', 'lsk', 'nlc2', 'dash', 'doge']
 
-DB_NAME = 'yobit_bot_db'
-DB_USER = 'root'
-DB_PASS = 'root'
+ADMIN_PASSWORD = 'your_admin_password'
