@@ -98,5 +98,5 @@ class YobitBot(object):
 
   def send_msg(self, msg) -> None:
     bot = self.updater_.dispatcher.bot
-    for user in User.select().where(User.is_active is True):
+    for user in User.select().where(User.is_active == True):
       bot.send_message(user.chat_id, text=msg)
