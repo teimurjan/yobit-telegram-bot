@@ -48,15 +48,16 @@ class ApiObserver(object):
   def _match_currency(self, currency_pair, currency_info):
     currency_name = get_currency_name_from_pair(currency_pair)
     currency_volume = currency_info[CURRENCY_VOLUME_KEY]
-    prev_volume = self.previous_values.get(currency_pair)
-    if _should_ignore(currency_name, currency_volume) or prev_volume is None:
+    if _should_ignore(currency_name, currency_volume):
       return
-    volume_raised = currency_volume - prev_volume >= VALUE_RAISE_BOUND
-    if volume_raised:
-      last_price = currency_info[CURRENCY_LAST_PRICE_KEY]
-      msg = get_value_raised_msg(currency_name, prev_volume, currency_volume, last_price)
-      self.bot.send_msg(msg)
-      self.logger.info(msg)
+    prev_volume = self.previous_values.get(currency_pair)
+    if prev_volume is not None:
+      volume_raised = currency_volume - prev_volume >= VALUE_RAISE_BOUND
+      if volume_raised:
+        last_price = currency_info[CURRENCY_LAST_PRICE_KEY]
+        msg = get_value_raised_msg(currency_name, prev_volume, currency_volume, last_price)
+        self.bot.send_msg(msg)
+        self.logger.info(msg)
     self.previous_values[currency_pair] = currency_volume
 
   def _split_currencies_pairs(self, chunk_size=50):
