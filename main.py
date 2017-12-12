@@ -1,6 +1,6 @@
 from api_observer import ApiObserver
 from bot.bot import YobitBot
-from constants import BOT_TOKEN
+from settings import BOT_TOKEN
 from models import User
 from utils import setup_logger
 

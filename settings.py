@@ -1,3 +1,7 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 INFO_URL = 'https://yobit.net/api/3/info'
 
 CURRENCY_PAIRS_KEY = 'pairs'
@@ -10,7 +14,7 @@ BOT_TOKEN = '395068991:AAHuDPRWP1nOdjPIlPA6Qvr0yWIBETBSoPE'
 
 LOGGER_NAME = "DEBUG_LOG"
 LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-LOGGER_FILE_NAME = "log"
+LOGGER_FILE_PATH = os.path.join(BASE_DIR, 'log')
 LOGGER_UPDATE_VALUE = "d"
 LOGGER_UPDATE_INTERVAL = 1
 LOGGER_BACKUP_COUNT = 1

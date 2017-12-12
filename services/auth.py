@@ -1,4 +1,4 @@
-from constants import ADMIN_PASSWORD
+from settings import ADMIN_PASSWORD
 from models import User
 from messages import REGISTRATION_SUCCESS_MSG, ALREADY_REGISTERED_MSG, \
   ADMIN_EXISTS, BECOME_ADMIN_SUCCESS, \

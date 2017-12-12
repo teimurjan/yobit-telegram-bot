@@ -2,7 +2,7 @@ import logging
 import traceback
 import requests
 import time
-from constants import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
+from settings import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
   VALUE_RAISE_BOUND, IGNORE_CURRENCIES, LOGGER_NAME
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
 from utils import get_currency_name_from_pair, is_pair_with_btc, get_ticker_url
