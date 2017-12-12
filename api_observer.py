@@ -2,10 +2,15 @@ import logging
 import traceback
 import requests
 import time
-from settings import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, MAX_PERMISSABLE_VOLUME, \
-  VALUE_RAISE_BOUND, IGNORE_CURRENCIES, LOGGER_NAME
+from settings import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, \
+  VALUE_RAISE_BOUND, IGNORE_CURRENCIES, LOGGER_NAME, MAX_ALLOWED_VOLUME, CURRENCY_LAST_PRICE_KEY
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
 from utils import get_currency_name_from_pair, is_pair_with_btc, get_ticker_url
+
+
+def _should_ignore(currency_name, currency_volume):
+  return currency_name.lower() in IGNORE_CURRENCIES or \
+         (MAX_ALLOWED_VOLUME and currency_volume > MAX_ALLOWED_VOLUME)
 
 
 class ApiObserver(object):
@@ -37,25 +42,22 @@ class ApiObserver(object):
     self._split_currencies_pairs()
     for currencies_pairs_chunk in self.currencies_pairs_:
       response = requests.get(get_ticker_url(currencies_pairs_chunk)).json()
-      for name, value in response.items():
-        if get_currency_name_from_pair(name).lower() in IGNORE_CURRENCIES:
-          continue
-        volume = value[CURRENCY_VOLUME_KEY]
-        if volume > MAX_PERMISSABLE_VOLUME:
-          continue
-        self._match_with_prev(name, volume)
-        self.previous_values[name] = volume
+      for currency_pair, currency_info in response.items():
+        self._match_currency(currency_pair, currency_info)
 
-  def _match_with_prev(self, currency_pair, currency_volume):
-    try:
-      prev_volume = self.previous_values[currency_pair]
-      has_value_raised = currency_volume - prev_volume >= VALUE_RAISE_BOUND
-      if has_value_raised:
-        msg = get_value_raised_msg(get_currency_name_from_pair(currency_pair), prev_volume, currency_volume)
-        self.bot.send_msg(msg)
-        self.logger.info(msg)
-    except KeyError:
-      pass
+  def _match_currency(self, currency_pair, currency_info):
+    currency_name = get_currency_name_from_pair(currency_pair)
+    currency_volume = currency_info[CURRENCY_VOLUME_KEY]
+    prev_volume = self.previous_values.get(currency_pair)
+    if _should_ignore(currency_name, currency_volume) or prev_volume is None:
+      return
+    volume_raised = currency_volume - prev_volume >= VALUE_RAISE_BOUND
+    if volume_raised:
+      last_price = currency_info[CURRENCY_LAST_PRICE_KEY]
+      msg = get_value_raised_msg(currency_name, prev_volume, currency_volume, last_price)
+      self.bot.send_msg(msg)
+      self.logger.info(msg)
+    self.previous_values[currency_pair] = currency_volume
 
   def _split_currencies_pairs(self, chunk_size=50):
     splitted_pairs = list()

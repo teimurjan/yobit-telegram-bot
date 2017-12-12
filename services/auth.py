@@ -7,7 +7,7 @@ from messages import REGISTRATION_SUCCESS_MSG, ALREADY_REGISTERED_MSG, \
 
 def register(update, by='phone') -> str:
   login = update.message.contact.phone_number if by == 'phone' else update.message.from_user.username
-  if not login:
+  if login is None:
     return NO_LOGIN
   chat_id = update.message.chat_id
   user_id = update.message.from_user.id
