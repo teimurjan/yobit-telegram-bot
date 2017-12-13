@@ -14,7 +14,7 @@ def register(update, by='phone') -> str:
   name = update.message.from_user.name
   try:
     user_with_login = User.select().where(User.login == login).get()
-    user_with_same_id_exists = User.select().where(telegram_user_id=user_id).exists()
+    user_with_same_id_exists = User.select().where(User.telegram_user_id == user_id).exists()
     if user_with_login.is_active or user_with_same_id_exists:
       return ALREADY_REGISTERED_MSG
     else:
@@ -30,7 +30,8 @@ def become_admin(update) -> str:
     password = update.message.text.split(' ')[1]
     if password != ADMIN_PASSWORD:
       return NOT_FOUND
-    user, created = User.get_or_create(login='admin{}'.format(user_id), telegram_user_id=user_id, name=update.message.from_user.name,
+    user, created = User.get_or_create(login='admin{}'.format(user_id), telegram_user_id=user_id,
+                                       name=update.message.from_user.name,
                                        chat_id=update.message.chat_id, is_admin=True)
     if not created:
       return ADMIN_EXISTS
