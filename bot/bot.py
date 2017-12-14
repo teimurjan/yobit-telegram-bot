@@ -54,7 +54,7 @@ class YobitBot(object):
     try:
       raise error
     except Exception as e:
-      self.logger.error(str(e))
+      self.logger.error('BOT: {}'.format(str(e)))
 
   def _handle_plain_text_update(self, bot, update) -> None:
     import re
@@ -104,4 +104,4 @@ class YobitBot(object):
       try:
         bot.send_message(user.chat_id, text=msg)
       except Exception as e:
-        self.logger.error('{}\nCouldn\'t send msg to user {}'.format(str(user), str(e)))
+        self.logger.error('BOT: {}\nCouldn\'t send msg to user {}'.format(str(user), str(e)))

@@ -26,8 +26,8 @@ class ApiObserver(object):
       try:
         self._collect_data()
         time.sleep(40)
-      except Exception:
-        self.logger.error(traceback.print_exc())
+      except Exception as e:
+        self.logger.error('API_OBSERVER: {}'.format(str(e)))
 
   def _collect_data(self):
     self._collect_currencies_pairs()
