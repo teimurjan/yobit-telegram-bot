@@ -104,4 +104,4 @@ class YobitBot(object):
       try:
         bot.send_message(user.chat_id, text=msg)
       except BadRequest as e:
-        self.logger.error(e)
+        self.logger.error('{}\nCouldn\'t send msg to user {}'.format(str(user), str(e)))
