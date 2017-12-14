@@ -1,4 +1,5 @@
 from telegram import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode
+from telegram.error import BadRequest
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 
 from bot.commands import START_COMMAND, LIST_USERS_COMMAND, ADD_USER_COMMAND, DELETE_USER_COMMAND, BECOME_ADMIN_COMMAND
@@ -25,11 +26,12 @@ def admin_required(func):
 
 
 class YobitBot(object):
-  def __init__(self, token):
+  def __init__(self, token, logger):
     self.token = token
     self.msg_router = {
       LOGIN_WITH_USERNAME_REGEX: self._register_with_username
     }
+    self.logger = logger
 
   def start(self) -> None:
     self.updater_ = Updater(token=self.token)
@@ -99,4 +101,7 @@ class YobitBot(object):
   def send_msg(self, msg) -> None:
     bot = self.updater_.dispatcher.bot
     for user in User.select().where(User.is_active == True):
-      bot.send_message(user.chat_id, text=msg)
+      try:
+        bot.send_message(user.chat_id, text=msg)
+      except BadRequest as e:
+        self.logger.error(e)

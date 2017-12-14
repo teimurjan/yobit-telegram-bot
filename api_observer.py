@@ -1,10 +1,12 @@
-import logging
 import traceback
-import requests
 import time
-from settings import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, \
-  VALUE_RAISE_BOUND, IGNORE_CURRENCIES, LOGGER_NAME, MAX_ALLOWED_VOLUME, CURRENCY_LAST_PRICE_KEY
+import traceback
+
+import requests
+
 from messages import get_value_raised_msg, get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
+from settings import INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, \
+  VALUE_RAISE_BOUND, IGNORE_CURRENCIES, MAX_ALLOWED_VOLUME, CURRENCY_LAST_PRICE_KEY
 from utils import get_currency_name_from_pair, is_pair_with_btc, get_ticker_url
 
 
@@ -14,10 +16,10 @@ def _should_ignore(currency_name, currency_volume):
 
 
 class ApiObserver(object):
-  def __init__(self, bot):
+  def __init__(self, bot, logger):
     self.bot = bot
     self.previous_values = dict()
-    self.logger = logging.getLogger(LOGGER_NAME)
+    self.logger = logger
 
   def observe(self):
     while True:
