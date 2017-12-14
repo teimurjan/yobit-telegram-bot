@@ -48,6 +48,13 @@ class YobitBot(object):
     dispatcher.add_handler(text_msg_handler)
     dispatcher.add_handler(admin_handler)
     dispatcher.add_handler(inline_btn_handler)
+    dispatcher.add_error_handler(self._handle_error)
+
+  def _handle_error(self, bot, update, error):
+    try:
+      raise error
+    except Exception as e:
+      self.logger.error(str(e))
 
   def _handle_plain_text_update(self, bot, update) -> None:
     import re
