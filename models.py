@@ -1,4 +1,4 @@
-from peewee import Model, CharField, SqliteDatabase, BooleanField, PrimaryKeyField, IntegerField
+from peewee import Model, CharField, SqliteDatabase, BooleanField, IntegerField
 from playhouse.hybrid import hybrid_property
 
 db = SqliteDatabase('yobit_bot.db')

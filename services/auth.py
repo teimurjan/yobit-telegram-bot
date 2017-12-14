@@ -35,7 +35,7 @@ def become_admin(message) -> dict:
       return answer(ADMIN_EXISTS)
     password = get_from_list(message.text.split(' '), 1)
     if password != ADMIN_PASSWORD:
-      return answer(NOT_FOUND, ReplyKeyboardRemove)
+      return answer(NOT_FOUND, ReplyKeyboardRemove())
     User.create(login='admin{}'.format(user_id), t_id=user_id,
                 name=message.from_user.name,
                 chat_id=message.chat_id, is_admin=True)
