@@ -11,17 +11,21 @@ def get_handled_currencies_amount_msg(amount):
   return 'Handled {} currencies'.format(amount)
 
 
-NOT_FOUND = 'Unknown command'
+NOT_FOUND = 'Непонятно'
 
-REGISTRATION_SUCCESS_MSG = 'Registration completed successfully!'
-ALREADY_REGISTERED_MSG = 'You have already registered'
-ADMIN_EXISTS = 'You are already an admin'
-BECOME_ADMIN_SUCCESS = 'Now you are an admin'
-LOG_IN_NOT_ALLOWED = 'You are not allowed to log in.'
-NO_LOGIN = 'You have no username or haven\'t sent your phone number'
+REGISTRATION_SUCCESS_MSG = 'Добро пожаловать!'
+ALREADY_REGISTERED_MSG = 'Но ты уже зарегистрирован.'
+ADMIN_EXISTS = 'Ты уже админ :)'
+BECOME_ADMIN_SUCCESS = 'Теперь ты админ!'
+LOG_IN_NOT_ALLOWED = 'Сначала получи разрешение.'
+NO_LOGIN = 'Представьтесь, пожалуйста.'
 
-NO_LOGIN_SENT = 'You\'ve not sent a login to add'
-USER_ALREADY_EXISTS = 'User with such login already exists'
-USER_NOT_EXISTS = 'There is no user with such login'
-ADD_SUCCESS = 'User was successfully added'
-DELETE_SUCCESS = 'User was successfully deleted'
+USER_ALREADY_EXISTS = 'Так он уже добавлен :)'
+USER_NOT_EXISTS = 'Нет такого пользователя.'
+USER_ADD_SUCCESS = 'Пользователь добавлен'
+USER_DELETE_SUCCESS = 'Пользователь удален'
+
+CURRENCY_DELETE_SUCCESS = "Валюта больше не игнорируется"
+CURRENCY_ADD_SUCCESS = 'Валюта добавлена в игнорируемые'
+CURRENCY_ALREADY_EXISTS = 'Такая валюта уже игнорируется'
+

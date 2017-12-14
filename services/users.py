@@ -1,20 +1,30 @@
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+from messages import USER_ALREADY_EXISTS, USER_NOT_EXISTS, USER_ADD_SUCCESS, USER_DELETE_SUCCESS
 from models import User
-from messages import NO_LOGIN_SENT, USER_ALREADY_EXISTS, USER_NOT_EXISTS, ADD_SUCCESS, DELETE_SUCCESS
+from utils import get_callback_data
 
 
-def show() -> str:
-  users = [str(user) for user in User.select()]
-  return '\n'.join(users)
+def show() -> InlineKeyboardMarkup:
+  none_callback_data = get_callback_data()
+  users = [[InlineKeyboardButton(text="Логин", callback_data=none_callback_data),
+            InlineKeyboardButton(text="Активен", callback_data=none_callback_data),
+            InlineKeyboardButton(text="Действие", callback_data=none_callback_data)]]
+  for user in User.select():
+    delete_callback_data = get_callback_data('delete_user', {'login': user.login})
+    users.append([InlineKeyboardButton(text=user.login, callback_data=none_callback_data),
+                  InlineKeyboardButton(text='Да' if user.is_active else 'Нет', callback_data=none_callback_data),
+                  InlineKeyboardButton(text='Удалить', callback_data=delete_callback_data)])
+  reply_markup = InlineKeyboardMarkup(users, n_cols=3)
+  return reply_markup
 
 
 def add(login) -> str:
-  if not login or login == '':
-    return NO_LOGIN_SENT
   user, created = User.get_or_create(login=login)
   if not created:
     return USER_ALREADY_EXISTS
   else:
-    return ADD_SUCCESS
+    return USER_ADD_SUCCESS
 
 
 def delete(login) -> str:
@@ -22,4 +32,4 @@ def delete(login) -> str:
   if not found_user.exists():
     return USER_NOT_EXISTS
   User.delete().where(User.login == login).execute()
-  return DELETE_SUCCESS
+  return USER_DELETE_SUCCESS

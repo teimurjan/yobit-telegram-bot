@@ -1,3 +1,4 @@
+import json
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
@@ -28,3 +29,14 @@ def setup_logger():
   handler.setFormatter(formatter)
   logger.addHandler(handler)
   return logger
+
+
+def get_from_list(l, i, default=None):
+  try:
+    return l[i]
+  except IndexError:
+    return default
+
+
+def get_callback_data(action=None, kwargs=None):
+  return json.dumps({'action': action, 'kwargs': kwargs})
