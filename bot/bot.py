@@ -6,7 +6,7 @@ from telegram.ext import Updater, MessageHandler, Filters, CallbackQueryHandler
 from bot.utils import DELETE_CURRENCY_ACTION_KEY, DELETE_USER_ACTION_KEY
 from messages import NOT_FOUND, DELETE_USER_HELP_TEXT, DELETE_CURRENCY_HELP_TEXT, SHOW_USERS, SHOW_IGNORED_CURRENCIES, \
   get_value_raised_msg
-from models import User, IgnoredCurrency
+from models import User
 from services.auth import become_admin, register
 from services.ignore_currency import delete as delete_currency, add as add_currency, show as show_currencies
 from services.users import add as add_user, show as show_users, delete as delete_user, update as update_user

@@ -1,8 +1,7 @@
 from peewee import Model, CharField, SqliteDatabase, BooleanField, IntegerField, ForeignKeyField, FloatField
 from playhouse.hybrid import hybrid_property
 
-from settings import CURRENCY_VOLUME_KEY, CURRENCY_LAST_PRICE_KEY
-from utils import get_currency_name_from_pair
+from settings import CURRENCY_VOLUME_KEY
 
 db = SqliteDatabase('yobit_bot.db')
 
