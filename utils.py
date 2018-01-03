@@ -39,4 +39,4 @@ def get_from_list(l, i, default=None):
 
 
 def get_callback_data(action=None, kwargs=None):
-  return json.dumps({'action': action, 'kwargs': kwargs})
+  return json.dumps({action: kwargs})
