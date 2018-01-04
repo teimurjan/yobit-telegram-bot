@@ -25,15 +25,15 @@ class User(Model):
     ignored_currencies = self.get().ignored_currencies.select()
     is_ignored_currency = ignored_currencies.where(IgnoredCurrency.value == currency_name).exists()
     is_volume_raised = self.volume_raise_limit < current_volume - prev_volume
-    volume_allowed = self.max_allowed_volume is not None and current_volume < self.max_allowed_volume
-    return not is_ignored_currency and volume_allowed and is_volume_raised
+    is_volume_allowed = self.max_allowed_volume is None or current_volume < self.max_allowed_volume
+    return not is_ignored_currency and is_volume_allowed and is_volume_raised
 
   def __str__(self):
     return 'Name: {}, Login: {}, {}'.format(self.name, self.login, 'ACTIVE' if self.is_active else 'NOT_ACTIVE')
 
   @hybrid_property
   def about(self):
-    return 'Login: {}, Volume raised bound: {}, Max allowed volume: {}.'.format(self.login, self.volume_raise_limit,
+    return 'Login: {}, Volume raised limit: {}, Max allowed volume: {}.'.format(self.login, self.volume_raise_limit,
                                                                                 self.max_allowed_volume)
 
   class Meta:
