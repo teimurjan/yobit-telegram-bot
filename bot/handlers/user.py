@@ -25,7 +25,7 @@ def _show_yourself(bot, update, user) -> None:
 @login_required
 @unfold_groupdict
 def _set_user_max_volume(bot, update, user, volume) -> None:
-  if volume > 0:
+  if int(volume) > 0:
     user.max_allowed_volume = volume
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
@@ -36,7 +36,7 @@ def _set_user_max_volume(bot, update, user, volume) -> None:
 @login_required
 @unfold_groupdict
 def _set_user_raise_limit(bot, update, user, limit) -> None:
-  if limit > 0.5:
+  if float(limit) > 0.5:
     user.volume_raise_limit = limit
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
