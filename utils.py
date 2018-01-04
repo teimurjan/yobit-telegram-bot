@@ -1,25 +1,12 @@
-import json
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-from settings import LOGGER_NAME, LOGGER_FORMAT, LOGGER_FILE_PATH, LOGGER_UPDATE_VALUE, LOGGER_UPDATE_INTERVAL, \
+from settings import LOGGER_FORMAT, LOGGER_FILE_PATH, LOGGER_UPDATE_VALUE, LOGGER_UPDATE_INTERVAL, \
   LOGGER_BACKUP_COUNT
 
 
-def get_currency_name_from_pair(currency_pair):
-  return currency_pair.replace('_btc', '').upper()
-
-
-def is_pair_with_btc(currency_pair):
-  return '_btc' in currency_pair
-
-
-def get_ticker_url(currencies_names):
-  return 'https://yobit.net/api/3/ticker/%s' % '-'.join(currencies_names)
-
-
-def setup_logger():
-  logger = logging.getLogger(LOGGER_NAME)
+def setup_logger(name):
+  logger = logging.getLogger(name)
   logger.setLevel(logging.DEBUG)
   formatter = logging.Formatter(LOGGER_FORMAT)
   handler = TimedRotatingFileHandler(LOGGER_FILE_PATH,
@@ -30,13 +17,3 @@ def setup_logger():
   logger.addHandler(handler)
   return logger
 
-
-def get_from_list(l, i, default=None):
-  try:
-    return l[i]
-  except IndexError:
-    return default
-
-
-def get_callback_data(action=None, kwargs=None):
-  return json.dumps({action: kwargs})

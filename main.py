@@ -1,8 +1,6 @@
-import logging
-
-from api_observer import ApiObserver
+from api_observer.api_observer import ApiObserver
 from bot.bot import YobitBot
-from settings import BOT_TOKEN, LOGGER_NAME
+from settings import BOT_TOKEN
 from models import User, IgnoredCurrency
 from utils import setup_logger
 
@@ -16,10 +14,12 @@ def init_db():
 
 if __name__ == '__main__':
   init_db()
-  setup_logger()
-  logger = logging.getLogger(LOGGER_NAME)
-  bot = YobitBot(BOT_TOKEN, logger)
+
+  api_observer_logger = setup_logger(ApiObserver.__name__)
+  bot_logger = setup_logger(YobitBot.__name__)
+
+  bot = YobitBot(BOT_TOKEN, bot_logger)
   bot.start()
 
-  observer = ApiObserver(bot, logger)
+  observer = ApiObserver(bot, api_observer_logger)
   observer.observe()

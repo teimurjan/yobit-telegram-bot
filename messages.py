@@ -29,6 +29,7 @@ USER_DELETE_SUCCESS = 'The user was deleted'
 CURRENCY_DELETE_SUCCESS = "The currency is no longer ignored."
 CURRENCY_ADD_SUCCESS = 'The currency is ignored now.'
 CURRENCY_ALREADY_EXISTS = 'This currency is already ignored.'
+CURRENCY_NOT_EXISTS = 'This currency doesn\'t exist'
 
 DELETE_USER_HELP_TEXT = 'Press "Delete" to delete a user.'
 DELETE_CURRENCY_HELP_TEXT = 'Press "Delete" to prevent ignoring a currency.'
