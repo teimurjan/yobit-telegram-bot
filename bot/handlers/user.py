@@ -30,7 +30,7 @@ def _set_user_max_volume(bot, update, user, volume) -> None:
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
   else:
-    update.message.reply_text()
+    update.message.reply_text(MIN_ALLOWED_VOLUME)
 
 
 @login_required
@@ -41,7 +41,7 @@ def _set_user_raise_limit(bot, update, user, limit) -> None:
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
   else:
-    update.message.reply_text(MIN_ALLOWED_VOLUME)
+    update.message.reply_text(MIN_RAISE_LIMIT)
 
 
 @admin_required
