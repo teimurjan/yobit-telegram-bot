@@ -4,10 +4,10 @@ from json import JSONDecodeError
 
 import requests
 
+from api_observer.utils import is_pair_with_btc, INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, \
+  get_currency_name_from_pair, get_with_retry
 from bot.message import Message
 from messages import get_grabbed_currencies_amount_msg, get_handled_currencies_amount_msg
-from api_observer.utils import is_pair_with_btc, get_ticker_url, INFO_URL, CURRENCY_PAIRS_KEY, CURRENCY_VOLUME_KEY, \
-  get_currency_name_from_pair
 
 
 class ApiObserver:
@@ -20,7 +20,7 @@ class ApiObserver:
     while True:
       try:
         self._collect_data()
-        time.sleep(40)
+        time.sleep(30)
       except Exception:
         self.logger.error(traceback.format_exc())
 
@@ -42,19 +42,17 @@ class ApiObserver:
   def _collect_values_with_matching(self):
     self._split_currencies_pairs()
     for currencies_pairs_chunk in self.currencies_pairs_:
-      url = get_ticker_url(currencies_pairs_chunk)
-      response = requests.get(url)
-      try:
-        payload = response.json()
+      url = 'https://yobit.net/api/3/ticker/{}'.format('-'.join(currencies_pairs_chunk))
+      payload = get_with_retry(url)
+      if payload is None:
+        self.logger.error('Could not parse ticker got from url {}').format(url)
+      else:
         for currency_pair, currency_info in payload.items():
           currency_name = get_currency_name_from_pair(currency_pair)
           prev_volume = self.previous_values.get(currency_name)
           msg = Message(currency_name, currency_info, prev_volume)
           self.bot.dispatch_message(msg)
           self.previous_values[currency_name] = currency_info[CURRENCY_VOLUME_KEY]
-        time.sleep(1)
-      except JSONDecodeError as e:
-        self.logger.error('{}. Could not get ticket by url {}. Response: {}'.format(str(e), url, response.text))
 
   def _split_currencies_pairs(self, chunk_size=50):
     splitted_pairs = list()
