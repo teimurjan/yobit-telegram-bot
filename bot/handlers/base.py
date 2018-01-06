@@ -22,7 +22,7 @@ def login_required(func):
   def wrapper(bot, update, **kwargs):
     user_id = update.effective_user.id
     try:
-      user = User.get(telegram_user_id=user_id)
+      user = User.get(telegram_user_id=user_id, is_active=True)
       return func(bot, update, user=user, **kwargs)
     except User.DoesNotExist:
       return update.reply_text(NOT_FOUND, reply_markup=ReplyKeyboardRemove())
