@@ -24,8 +24,8 @@ USER_ALREADY_EXISTS = 'This user is already added'
 USER_NOT_EXISTS = 'This user doesn\'t exist'
 USER_ADD_SUCCESS = 'The user was added'
 USER_UPDATE_SUCCESS = 'Your settings were updated'
-MIN_RAISE_LIMIT = 'Min value of raise limit should be greater then 0.5'
-MIN_ALLOWED_VOLUME = 'Min value of max allowed volume should be greater then 1'
+MIN_RAISE_LIMIT_MSG = 'Min value of raise limit should be greater then 0.5'
+MIN_ALLOWED_VOLUME_MSG = 'Min value of max allowed volume should be greater then 1'
 USER_DELETE_SUCCESS = 'The user was deleted'
 
 CURRENCY_DELETE_SUCCESS = "The currency is no longer ignored."

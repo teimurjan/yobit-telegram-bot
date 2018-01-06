@@ -4,9 +4,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import RegexHandler
 
 from bot.handlers.base import admin_required, login_required, unfold_groupdict
-from bot.utils import DELETE_USER_ACTION_KEY
+from bot.utils import DELETE_USER_ACTION_KEY, MIN_RAISE_LIMIT, MIN_ALLOWED_VOLUME
 from messages import USER_ALREADY_EXISTS, USER_ADD_SUCCESS, USER_UPDATE_SUCCESS, DELETE_USER_HELP_TEXT, SHOW_USERS, \
-  USER_NOT_EXISTS, USER_DELETE_SUCCESS, MIN_RAISE_LIMIT, MIN_ALLOWED_VOLUME
+  USER_NOT_EXISTS, USER_DELETE_SUCCESS, MIN_RAISE_LIMIT_MSG, MIN_ALLOWED_VOLUME_MSG
 from models import User
 
 
@@ -25,23 +25,23 @@ def _show_yourself(bot, update, user) -> None:
 @login_required
 @unfold_groupdict
 def _set_user_max_volume(bot, update, user, volume) -> None:
-  if int(volume) > 0:
+  if int(volume) > MIN_ALLOWED_VOLUME:
     user.max_allowed_volume = volume
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
   else:
-    update.message.reply_text(MIN_ALLOWED_VOLUME)
+    update.message.reply_text(MIN_ALLOWED_VOLUME_MSG)
 
 
 @login_required
 @unfold_groupdict
 def _set_user_raise_limit(bot, update, user, limit) -> None:
-  if float(limit) > 0.5:
+  if float(limit) > MIN_RAISE_LIMIT:
     user.volume_raise_limit = limit
     user.save()
     update.message.reply_text(USER_UPDATE_SUCCESS)
   else:
-    update.message.reply_text(MIN_RAISE_LIMIT)
+    update.message.reply_text(MIN_RAISE_LIMIT_MSG)
 
 
 @admin_required

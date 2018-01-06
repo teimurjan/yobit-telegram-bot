@@ -17,16 +17,9 @@ class User(Model):
   def is_active(self):
     return self.chat_id is not None and self.telegram_user_id is not None
 
-  def should_receive_msg(self, msg):
-    prev_volume, currency_name, current_volume = \
-      msg.get_prev_volume(), msg.get_currency_name(), msg.get_current_volume()
-    if not prev_volume:
-      return False
+  def is_ignore_currency(self, currency_name):
     ignored_currencies = self.get().ignored_currencies.select()
-    is_ignored_currency = ignored_currencies.where(IgnoredCurrency.value == currency_name).exists()
-    is_volume_raised = self.volume_raise_limit < current_volume - prev_volume
-    is_volume_allowed = self.max_allowed_volume is None or current_volume < self.max_allowed_volume
-    return not is_ignored_currency and is_volume_allowed and is_volume_raised
+    return ignored_currencies.where(IgnoredCurrency.value == currency_name).exists()
 
   def __str__(self):
     return 'Name: {}, Login: {}, {}'.format(self.name, self.login, 'ACTIVE' if self.is_active else 'NOT_ACTIVE')

@@ -13,7 +13,7 @@ from messages import get_grabbed_currencies_amount_msg, get_handled_currencies_a
 class ApiObserver:
   def __init__(self, bot, logger):
     self.bot = bot
-    self.previous_values = dict()
+    self.previous_volumes = dict()
     self.logger = logger
 
   def observe(self):
@@ -28,7 +28,7 @@ class ApiObserver:
     self._collect_currencies_pairs()
     self.logger.info(get_grabbed_currencies_amount_msg(len(self.currencies_pairs_)))
     self._collect_values_with_matching()
-    self.logger.info(get_handled_currencies_amount_msg(len(self.previous_values)))
+    self.logger.info(get_handled_currencies_amount_msg(len(self.previous_volumes)))
 
   def _collect_currencies_pairs(self):
     response = requests.get(INFO_URL)
@@ -49,10 +49,12 @@ class ApiObserver:
       else:
         for currency_pair, currency_info in payload.items():
           currency_name = get_currency_name_from_pair(currency_pair)
-          prev_volume = self.previous_values.get(currency_name)
-          msg = Message(currency_name, currency_info, prev_volume)
-          self.bot.dispatch_message(msg)
-          self.previous_values[currency_name] = currency_info[CURRENCY_VOLUME_KEY]
+          prev_volume = self.previous_volumes.get(currency_name)
+          current_volume = currency_info[CURRENCY_VOLUME_KEY]
+          if prev_volume and current_volume > prev_volume:
+            msg = Message(currency_name, currency_info, prev_volume)
+            self.bot.dispatch_message(msg)
+          self.previous_volumes[currency_name] = current_volume
 
   def _split_currencies_pairs(self, chunk_size=50):
     splitted_pairs = list()

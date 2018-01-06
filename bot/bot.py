@@ -55,8 +55,15 @@ class YobitBot(object):
     bot = self.updater.dispatcher.bot
     for user in User.select().where(User.is_active == True):
       try:
-        if user.should_receive_msg(msg):
-          bot.send_message(user.chat_id, text=str(msg))
-          self.logger.info(msg)
+        prev_volume, currency_name, current_volume = \
+          msg.get_prev_volume(), msg.get_currency_name(), msg.get_current_volume()
+        is_volume_raised = user.volume_raise_limit < current_volume - prev_volume
+        is_volume_allowed = user.max_allowed_volume is None or current_volume < user.max_allowed_volume
+        if not user.is_ignore_currency(currency_name):
+          if is_volume_allowed and is_volume_raised:
+            bot.send_message(user.chat_id, text=str(msg))
+            self.logger.info(msg)
+        else:
+          self.logger.info('User {} ignored {}'.format(user, currency_name))
       except Exception as e:
         self.logger.error('{}. Couldn\'t send msg to user {}'.format(str(e), str(user)))
