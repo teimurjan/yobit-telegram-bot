@@ -53,7 +53,7 @@ class YobitBot(object):
 
   def dispatch_message(self, msg) -> None:
     bot = self.updater.dispatcher.bot
-    for user in User.select().where(User.is_active == True):
+    for user in [user for user in User.select() if user.is_active]:
       try:
         prev_volume, currency_name, current_volume = \
           msg.get_prev_volume(), msg.get_currency_name(), msg.get_current_volume()

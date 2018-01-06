@@ -76,4 +76,4 @@ set_user_max_volume_handler = RegexHandler(r'^(S|s)et max volume (?P<volume>\d+)
                                            _set_user_max_volume, pass_groupdict=True)
 set_user_raise_limit_handler = RegexHandler(r'^(S|s)et raise limit (?P<limit>\d+(\.\d+)?)$',
                                             _set_user_raise_limit, pass_groupdict=True)
-show_users_handler = RegexHandler(r'^{}$'.format(SHOW_USERS), _show_users)
+show_users_handler = RegexHandler(r'^({})|((S|s)u)$'.format(SHOW_USERS), _show_users)

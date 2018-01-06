@@ -44,4 +44,5 @@ def delete_ignore_currency_handler(bot, update, user, currency, user_id) -> None
 
 add_ignore_currency_handler = RegexHandler(r'^(I|i)gnore (?P<currency>.{1,})$',
                                            _add_ignore_currency, pass_groupdict=True)
-show_ignore_currencies_handler = RegexHandler(r'^{}$'.format(SHOW_IGNORED_CURRENCIES), _show_ignore_currencies)
+show_ignore_currencies_handler = RegexHandler(r'^({})|((S|s)ig)$'.format(SHOW_IGNORED_CURRENCIES),
+                                              _show_ignore_currencies)

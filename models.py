@@ -15,7 +15,7 @@ class User(Model):
 
   @hybrid_property
   def is_active(self):
-    return (self.chat_id != None) & (self.telegram_user_id != None)
+    return self.chat_id is not None and self.telegram_user_id is not None
 
   def is_ignore_currency(self, currency_name):
     ignored_currencies = self.get().ignored_currencies.select()
