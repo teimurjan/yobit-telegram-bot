@@ -17,10 +17,6 @@ class User(Model):
   def is_active(self):
     return self.chat_id is not None and self.telegram_user_id is not None
 
-  def is_ignore_currency(self, currency_name):
-    ignored_currencies = self.get().ignored_currencies.select()
-    return ignored_currencies.where(IgnoredCurrency.value == currency_name).exists()
-
   def __str__(self):
     return 'Name: {}, Login: {}, {}'.format(self.name, self.login, 'ACTIVE' if self.is_active else 'NOT_ACTIVE')
 

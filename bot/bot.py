@@ -8,7 +8,7 @@ from bot.handlers.ignore_currency import add_ignore_currency_handler, show_ignor
 from bot.handlers.user import add_user_handler, show_yourself_handler, set_user_max_volume_handler, \
   set_user_raise_limit_handler, show_users_handler, delete_user_handler
 from bot.utils import DELETE_CURRENCY_ACTION_KEY, DELETE_USER_ACTION_KEY
-from models import User
+from models import User, IgnoredCurrency
 
 
 class YobitBot(object):
@@ -59,10 +59,12 @@ class YobitBot(object):
           msg.get_prev_volume(), msg.get_currency_name(), msg.get_current_volume()
         is_volume_raised = user.volume_raise_limit < current_volume - prev_volume
         is_volume_allowed = user.max_allowed_volume is None or current_volume < user.max_allowed_volume
-        if not user.is_ignore_currency(currency_name):
+        is_ignored_currency = IgnoredCurrency.select().where(
+          (IgnoredCurrency.user == user) & (IgnoredCurrency.value == currency_name)).exists()
+        if not is_ignored_currency:
           if is_volume_allowed and is_volume_raised:
             bot.send_message(user.chat_id, text=str(msg))
-            self.logger.info(msg)
+            self.logger.info('Message "{}" was sent to user {}'.format(msg, user))
         else:
           self.logger.info('User {} ignored {}'.format(user, currency_name))
       except Exception as e:
