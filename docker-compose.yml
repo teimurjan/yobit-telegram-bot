@@ -2,5 +2,7 @@ version: '2'
 services:
   bot:
     build: .
+    env_file:
+      - .env
     volumes:
       - .:/yobit-bot
