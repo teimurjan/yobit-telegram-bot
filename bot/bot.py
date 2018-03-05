@@ -31,6 +31,8 @@ class YobitBot(object):
         else:
             self.updater.start_webhook(listen="0.0.0.0", port=self.port, url_path=self.token)
             self.updater.bot.set_webhook(HEROKU_BASE_URL + self.token)
+            print(self.port, self.token, HEROKU_BASE_URL)
+            self.updater.idle()
 
     def _init_handlers(self) -> None:
         dispatcher = self.updater.dispatcher
