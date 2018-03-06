@@ -6,3 +6,10 @@ services:
       - .env
     volumes:
       - .:/yobit-bot
+  db:
+    restart: always
+    image: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data

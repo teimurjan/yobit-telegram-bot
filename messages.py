@@ -1,14 +1,14 @@
 def get_grabbed_currencies_amount_msg(amount):
-  return 'Grabbed {} currencies'.format(amount)
+    return 'Grabbed {} currencies'.format(amount)
 
 
 def get_value_raised_msg(currency_name, prev_value, next_value, last_price):
-  return 'Value for {} raised from {} BTC to {} BTC. Last price was {}.'.format(
-    currency_name, prev_value, next_value, last_price)
+    return 'Value for {} raised from {} BTC to {} BTC. Last price was {}.'.format(
+        currency_name, prev_value, next_value, last_price)
 
 
 def get_handled_currencies_amount_msg(amount):
-  return 'Handled {} currencies'.format(amount)
+    return 'Handled {} currencies'.format(amount)
 
 
 NOT_FOUND = 'Unclear :('

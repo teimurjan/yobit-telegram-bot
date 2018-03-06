@@ -6,20 +6,20 @@ from utils import setup_logger
 
 
 def init_db():
-  if not User.table_exists():
-    User.create_table()
-  if not IgnoredCurrency.table_exists():
-    IgnoredCurrency.create_table()
+    if not User.table_exists():
+        User.create_table()
+    if not IgnoredCurrency.table_exists():
+        IgnoredCurrency.create_table()
 
 
 if __name__ == '__main__':
-  init_db()
+    init_db()
 
-  api_observer_logger = setup_logger(ApiObserver.__name__)
-  bot_logger = setup_logger(YobitBot.__name__)
+    api_observer_logger = setup_logger(ApiObserver.__name__)
+    bot_logger = setup_logger(YobitBot.__name__)
 
-  bot = YobitBot(BOT_TOKEN, bot_logger, PORT)
-  bot.start()
+    bot = YobitBot(BOT_TOKEN, bot_logger, PORT)
+    bot.start()
 
-  observer = ApiObserver(bot, api_observer_logger)
-  observer.observe()
+    observer = ApiObserver(bot, api_observer_logger)
+    observer.observe()

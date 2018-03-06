@@ -3,6 +3,7 @@ chardet==3.0.4
 future==0.16.0
 idna==2.6
 peewee==2.10.2
+psycopg2-binary==2.7.4
 python-telegram-bot==9.0.0
 requests==2.18.4
 urllib3==1.22
