@@ -18,7 +18,7 @@ def setup_logger(name):
     return logger
 
 
-DATABASE_URL_REGEX = r'^postgres:\/\/(?P<user>.*)(:(?P<password>.*))?@(?P<host>.*):(?P<port>\d{1,4})\/(?P<db_name>.*)$'
+DATABASE_URL_REGEX = r'^postgres:\/\/(?P<user>.*)(:(?P<password>.*)?)@(?P<host>.*):(?P<port>\d{1,4})\/(?P<db_name>.*)$'
 
 
 def parse_database_url(url):
